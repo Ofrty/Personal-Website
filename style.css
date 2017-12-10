@@ -1,0 +1,197 @@
+/*
+* Author:       Joe Kirkham
+* Date Created: 2017/11/05
+* Description:  This CSS file serves to stylize sections of my home website.
+*
+* Color Scheme: http://www.degraeve.com/color-palette/index.php?q=http://sphotos-a.xx.fbcdn.net/hphotos-ash4/390343_203516566397710_2010188742_n.jpg,06021C2A16615F46A08C76C19986CC,0000351E00A8693AE6AF95F1C3AFF7
+&
+*/
+
+/*variables*/
+:root
+{
+    --debug-borders: none;
+}
+
+/*General*/
+html
+{
+    background: url(assets/homeBackgroundA.jpg) rgba(0, 0, 0, 0.85) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body
+{
+    margin-top: 90px;
+    color: #9988CC;
+}
+
+/*Navbar*/
+#navbar
+{
+    position: absolute;
+    top: 0;
+    left: 16.5%;
+    height: calc(5% + 20px);
+    width: 67%;
+    background-image: linear-gradient(155deg, #221166, #664499);
+    border-radius: 5vw;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav_button
+{
+    background-color: inherit;
+    color: #8877BB;
+    font-family: Georgia;
+    font-size: calc(10% + 1vw + .9vh);
+    border: 0;
+}
+
+.nav_button:hover
+{
+    opacity: 0.67;
+    cursor: pointer;
+}
+
+/*home*/
+#homeCarouselContainer
+{
+    margin: auto;
+    position: fixed;
+    top: calc(5% + 20px);
+    left: 16%;
+    max-height: 19.5%;
+    max-width: 45%;
+    justify-content: space-between;
+}
+
+.homeCarouselPictureContainer
+{
+    display: none;
+}
+
+.homePicture
+{
+    max-width: 33.3%;
+}
+
+#homeCarouselPic1
+{
+    margin-left: 37%;
+}
+
+#homeCarouselPic2
+{
+    margin-left: 75%;
+}
+
+#homeCarouselPic3
+{
+    margin-left: 112%;
+}
+
+.homeText
+{
+    position: absolute;
+    border: var(--debug-borders);
+    cursor: context-menu;
+}
+
+#leftShape{
+    shape-outside: polygon(0 0, 0 33%, 75% 0);
+    float: left;
+    width: 45%;
+    height: 100px;
+}
+
+#rightShape{
+    shape-outside: polygon(25% 0, 100% 33%, 100% 0);
+    float: right;
+    width: 45%;
+    height: 100px;
+}
+
+#homeTree
+{
+    top: 3%;
+    left: 1%;
+    width: 10%;
+    font-family: "Georgia";
+    font-size: calc(10% + .8vw + .8vh);
+}
+
+#homeCarouselActivator
+{
+    color: #664499;
+}
+
+#homeCarouselActivator:hover
+{
+    color: #221166;
+    cursor: pointer;
+}
+
+#homeCabin
+{
+    width: 16%;
+    top: calc(55% + 4.5vw + 6vh);
+    left: calc(32% + 5vw + 2.5vh);
+    overflow: hidden;
+    font-family: "Times New Roman";
+    font-size: calc(5% + .5vw + .8vh);
+    text-align: center;
+}
+
+/*Programming & Music Text*/
+.transparentDarkContainer
+{
+    margin: auto;
+    max-width: 50%;
+    padding: 3%;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 25px;
+    text-align: center;
+    font-size: calc(10% + .5vw + 1.5vh);
+}
+
+#programmingList
+{
+    text-align: left;
+}
+
+/*Music*/
+.audioPlayer
+{
+    padding: 20px 0 0 0;
+}
+
+/*Photography*/
+#photogScrollContainer
+{
+    display: inline-flex;
+    padding: 0 4% 0 4%;
+    max-width: 92%;
+}
+
+.photogScroll
+{
+    margin: auto;
+    max-height: 32vw;
+    max-width: 29%;
+    padding: 1%;
+    background-color: #221166;
+    overflow: scroll;
+    text-align: center;
+    font-size: calc(45% + .5vw);
+}
+
+.photogPicture
+{
+    max-width: 98%;
+    padding-bottom: 2%;
+}
