@@ -1,12 +1,15 @@
 # archive
 archive/
 
-
 # assets
-assets/
+public/assets/
 
 # design
 design/
+
+# node_modules
+
+node_modules/
 
 # WebStorm-specific
 .idea/
