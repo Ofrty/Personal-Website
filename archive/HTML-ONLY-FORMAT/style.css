@@ -1,0 +1,207 @@
+/*
+* Author:       Joe Kirkham
+* Date Created: 2017/11/05
+* Date Modified:
+* Description:  This CSS file serves to stylize sections of my personal website.
+*
+* Color Scheme: http://www.degraeve.com/color-palette/index.php?q=http://sphotos-a.xx.fbcdn.net/hphotos-ash4/390343_203516566397710_2010188742_n.jpg,06021C2A16615F46A08C76C19986CC,0000351E00A8693AE6AF95F1C3AFF7
+&
+*/
+
+/*variables*/
+
+
+/*General*/
+html
+{
+}
+
+body
+{
+    color: #000033;
+}
+
+img
+{
+    width: 100%;
+}
+
+/*Header*/
+header
+{
+    margin: auto;
+    width: 100%;
+}
+
+#navbarPicContainer
+{
+    position: relative;
+    margin: 5px auto 5px;
+    width: 83.3vw;
+}
+
+/*Navbar*/
+#headerPic
+{
+    position: relative;
+    margin: auto;
+    display: block;
+    width: inherit;
+}
+
+#headerNavbar
+{
+    position: absolute;
+    top: 0;
+    left: 16.5%;
+    height: calc(20% + 20px);
+    width: 67%;
+    background-image: linear-gradient(155deg, #221166, #664499);
+    border-radius: 5vw;
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav_button
+{
+    background-color: inherit;
+    color: #8877BB;
+    font-family: "Georgia";
+    font-size: calc( (1.73vw + 1vh) * 0.65);
+    border: 0;
+}
+
+.nav_button:hover
+{
+    opacity: 0.67;
+    cursor: pointer;
+}
+
+#headerFoot
+{
+    margin: auto;
+    width: 87.5vw;
+    height: calc(1px + 0.5vmin);
+    max-height: 5px;
+    background-color: #000033;
+}
+
+h1
+{
+    text-align: center;
+    margin: auto;
+    font-size: calc(20px + 2vmin);
+}
+
+h2
+{
+    font-family: "Open Sans", sans-serif;
+}
+
+.contentWrapper
+{
+    position: relative;
+    margin: 5px auto 5px;
+    padding: 0 2.1vw;
+    width: 83.3vw;
+    height: 63vh;
+    background-image: linear-gradient(45deg, #664499, white);
+    font-family: "Open Sans", sans-serif;
+    font-size: calc(50% + .4vw + .4vh);
+}
+
+.primaryContent
+{
+    position: absolute;
+    padding: 0 5px;
+    height: inherit;
+    width: 50%;
+    cursor: context-menu;
+    overflow: hidden;
+}
+
+.secondaryContent
+{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    right: 2.1vw;
+    width: 33.33%;
+    height: inherit;
+    overflow: hidden;
+}
+
+footer
+{
+    position: absolute;
+    margin: auto;
+    text-align: center;
+
+    /*how to stretch full screen width, but never have a horizontal scrollbar*/
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /*************************************************************************/
+
+    background-color: #000022;
+    color: #6633ee;
+}
+
+/*Home*/
+.twitter-timeline
+{
+}
+
+/*Programming*/
+.programmingPic
+{
+    position: absolute;
+    left:  0;
+    opacity: 0.0;
+    visibility: hidden;
+}
+
+#programmingPlaceholder
+{
+    opacity: 1.0;
+    visibility: visible;
+}
+
+#programmingList
+{
+    text-align: left;
+}
+
+/*Music*/
+audio
+{
+    padding: 20px 0 0 0;
+}
+
+/*Photography*/
+#photogScrollContainer
+{
+    display: inline-flex;
+    padding: 0 4% 0 4%;
+    max-width: 92%;
+}
+
+.photogScroll
+{
+    margin: auto;
+    max-height: 32vw;
+    max-width: 29%;
+    padding: 1%;
+    background-color: #221166;
+    overflow: scroll;
+    text-align: center;
+    font-size: calc(45% + .5vw);
+}
+
+.photogPicture
+{
+    max-width: 98%;
+    padding-bottom: 2%;
+}
