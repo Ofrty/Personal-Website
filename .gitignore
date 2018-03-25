@@ -1,8 +1,12 @@
 # archive
-archive/
+archive/*
+
 
 # assets
 assets/
+
+# design
+design/
 
 # WebStorm-specific
 .idea/
