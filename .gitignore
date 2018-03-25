@@ -10,5 +10,8 @@ design/
 # node_modules
 node_modules/
 
+# Procfile
+Procfile.txt
+
 # WebStorm-specific
 .idea/
