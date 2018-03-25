@@ -4,6 +4,9 @@ archive/
 # assets
 public/assets/
 
+# database connection
+private/
+
 # design
 design/
 
