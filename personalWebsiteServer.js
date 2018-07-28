@@ -11,7 +11,7 @@
 
 /*setup server*/
 var express = require("express");
-/*var mysql = require("./pfnpcDBConnection.js");*/
+var mysql = require("./private/pfnpcDBConnection.js");
 var bodyParser = require("body-parser");
 
 var app = express();
@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
 app.set("view engine", "handlebars");
 app.set("port", 8657);
-/*app.set("mysql", mysql);*/
+app.set("mysql", mysql);
 
 
 /* access control
@@ -38,6 +38,20 @@ app.use(function(req, res, next) {
 app.get("/", function(req,res,next)
 {
     res.redirect('/home');
+});
+
+app.get("/sql", function(req,res,next)
+{
+    var context = {};
+
+    mysql.pool.query('SELECT * FROM test_table', function(err,rows,fields)
+       {
+            context.results = rows;
+
+            console.log(rows);
+
+            res.render("table", context);
+       });
 });
 
 app.get("/home", function(req,res,next)
@@ -107,12 +121,10 @@ app.get("/creativePursuits", function(req,res,next)
 
     context.primaryContentHeader = "Creative Pursuits";
 
-    context.primaryContent = "{{joe edit this}} I enjoy photography and photography! Links to the right!"
+    context.primaryContent = "Music, photography, and DIY projects are all hobbies of mine! As I polish off projects worthy of display, I'll host them here.!"
 
     context.secondaryContent =
         "<ul>" +
-        "<li><a href=\"photography\">Music</a></li>" +
-        "<br/>" +
         "<li><a href=\"photography\">Photography</a></li>" +
         "</ul>";
 
@@ -137,7 +149,7 @@ app.get("/contact", function(req,res,next)
 
     res.render("primaryView", context);
 });
-
+/*
 app.get("/music", function(req,res,next)
 {
     var context = {};
@@ -169,6 +181,7 @@ app.get("/music", function(req,res,next)
 
     res.render("primaryView", context);
 });
+*/
 
 app.get("/photography", function(req,res,next)
 {
@@ -178,9 +191,9 @@ app.get("/photography", function(req,res,next)
 
     context.primaryContentHeader = "Photography";
 
-    context.primaryContent = "{{$$PIC_PRIM_CONTENT$$}}";
+    context.primaryContent = "The world is a lovely place, and it's fun to capture some of it. On the rare occasions I find myself in areas with low light pollution, I turn my camera skyward.";
 
-    context.secondaryContent = "{{$$PIC_SEC_CONTENT$$}}";
+    context.secondaryContent = "Astrophotography";
 
     res.render("primaryView", context);
 });

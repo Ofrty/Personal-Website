@@ -17,6 +17,12 @@ function main()
     {
         programmingPicPreviews();
     }
+
+    //photography page gallery viewer
+    if (document.getElementByID("photographyList"))
+    {
+        galleryControlInit();
+    }
 }
 
 /*buildNavbar() will create the same navbar on any page that has a <div id="headerNavbar">*/

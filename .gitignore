@@ -2,7 +2,7 @@
 archive/
 
 # assets
-public/assets/
+public/_dev_assets/
 
 # database connection
 private/
