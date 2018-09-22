@@ -19,12 +19,13 @@ function main()
     }
 
     //photography page gallery viewer
-    if (document.getElementByID("photographyList"))
+    if (document.getElementById("photographyList"))
     {
-        galleryControlInit();
+        galleryInit();
     }
 }
 
+/**home**/
 /*buildNavbar() will create the same navbar on any page that has a <div id="headerNavbar">*/
 /*to add or remove a button: 1: change BUTTON_COUNT, 2: change navButtonAttribues.names & .links */
 function buildNavbar()
@@ -46,6 +47,7 @@ function buildNavbar()
         names: [],
         links: []
     };
+
     navButtonAttributes.names.push("Home", "Programming", "Creative Pursuits", "Contact");
     navButtonAttributes.links.push("home", "programming", "creativePursuits", "contact");
 
@@ -69,17 +71,18 @@ function forEachButton(buttons, buttonAttributes, formatNavButtons)
     }
 }
 
-/*formatButton()formats each button in the navbar*/
+/*formatButton() formats each button in the navbar*/
 function formatNavButtons(button, buttonName, buttonLink)
 {
     button.classList += " nav_button";
     button.textContent = buttonName;
-    button.setAttribute("onclick", "window.location.href=\'" + buttonLink + "\'");
+    button.setAttribute("onclick", "window.location.href=\"" + buttonLink + "\"");
 }
 
+/**programming**/
 /*
 * programmingPicPreviews() is the main handler for the title hover -> pic preview effects on the programming page.
-* If the elem ID in the list is detected in the assets as a JPG, then add a mouseover and mouseout event listeners
+* If the elem ID in the list is detected in the assets as a JPG, then add mouseover and mouseout event listeners
 * to fade in/out the review pics.
 * */
 function programmingPicPreviews() {
@@ -109,6 +112,7 @@ function programmingPicPreviews() {
     }
 }
 
+/*handles the behavior of pictures when hovering over their titles*/
 function programmingListHoverBehavior(name)
 {
     //console.log("hovering over " + name);
@@ -148,6 +152,7 @@ function programmingListHoverBehavior(name)
     }
 }
 
+/*handles the behavior of pictures when the cursor is moved off of their title*/
 function programmingListOutBehavior(name)
 {
     var outPic = document.getElementById(name + "Pic");
@@ -165,10 +170,6 @@ function programmingListOutBehavior(name)
                     if ((window.getComputedStyle(outPic).getPropertyValue("opacity") > 0.0) && (isOnList[name] === 0) )
                     {
                        fadeOutLoop();
-                    }
-                    else
-                    {
-                        outPic.style.visibility = "hidden";
                     }
                 }
                 , 100)
@@ -196,4 +197,174 @@ function fadeIn(obj, delta)
 function fadeOut(obj, delta)
 {
     obj.style.opacity -= delta;
+}
+
+/**photography**/ //TODO: netherlands domtower pic dimensions wrong on export TODO: scroll bar for gallery broken on netherlands, may be related to domtower dimensions issue
+/*initialize the photo gallery structure and control*/
+function galleryInit()
+{
+    //init photog list listeners
+    photoListInit();
+}
+
+/*create and insert gallery elements*/
+function galleryElements()
+{
+    //create and insert gallery DOM elements. container; main pic; thumb container; caption box
+    var contentContainer = document.getElementById("contentContainer"); //reference point for insertion
+
+    //overlay for dimming
+    var overlay = document.createElement("div");
+    overlay.setAttribute("id", "overlay");
+
+    //create container
+    var galleryContainer = document.createElement("div");
+    galleryContainer.setAttribute("id","galleryContainer");
+
+    //create main pic img & div
+    var galleryMainPicContainer = document.createElement("div");
+    galleryMainPicContainer.setAttribute("id","galleryMainPicContainer");
+    var galleryMainPicImg = document.createElement("img");
+    galleryMainPicImg.setAttribute("id","galleryMainPicImg");
+
+    //create caption
+    var galleryCaption = document.createElement("div");
+    galleryCaption.setAttribute("id","galleryCaption");
+    galleryCaption.textContent = "CAPTION TEXT";
+
+    //create thumb container
+    var thumbContainer = document.createElement("div");
+    thumbContainer.setAttribute("id", "thumbContainer");
+
+    //append
+    document.getElementsByTagName("body")[0].appendChild(overlay);
+    galleryMainPicContainer.appendChild(galleryMainPicImg);
+    galleryContainer.appendChild(galleryMainPicContainer);
+    galleryContainer.appendChild(galleryCaption);
+    galleryContainer.appendChild(thumbContainer);
+    contentContainer.parentNode.insertBefore(galleryContainer, contentContainer.nextSibling);
+}
+
+/*sets event listeners on the photo list items*/
+function photoListInit()
+{
+    //get list
+    var galList = document.getElementById("photographyList");
+
+    //set event listeners on all children
+    for (var i = 0; i < galList.children.length; i++)
+    {
+        var tempText = galList.children[i].textContent;
+
+        galList.children[i].addEventListener("click", function(t)
+            {
+                return function ()
+                {
+                    galleryRun(t);
+                }
+            }(tempText)
+        );
+    }
+}
+
+/*displays the gallery based on user selection. assembles gallery after pic names received from server*/
+function galleryRun(gal)
+{
+    //create and insert gallery elements
+    galleryElements();
+
+    //prep data to post to server; folder name
+    var data = {};
+    data.folder = (gal.toLowerCase() + "/");
+
+    //create and prep
+    var req = new XMLHttpRequest();
+    req.open("POST", "public/assets/photography/" + gal.toLowerCase(), true);
+    req.setRequestHeader("Content-Type", "application/json");
+    var res = null;
+
+    //do all the stuff from the request after it loads
+    req.addEventListener("load", function()
+    {
+        //do all the stuff if the request was successful
+        if (req.status >= 200 && req.status < 400)
+        {
+            //local confirmation message and parse server response
+            console.log(req.statusText + " - request and response successful");
+            res = JSON.parse(req.response);
+
+            //prep gal objects
+            var overlay = document.getElementById("overlay");
+            var galContainer = document.getElementById("galleryContainer");
+            var thumbContainer = document.getElementById("thumbContainer");
+            var tempThumb;
+            var tempImg;
+
+            //create and append one thumb per file, including hover behavior
+            for (var file in res.fileNames)
+            {
+                //create thumb container, adding an event listener to make it selectable as the main img
+                tempThumb = document.createElement("div");
+                tempThumb.classList.add("thumb");
+                var addr = ("assets/photography/" + data.folder + "full/" + res.fileNames[file]);
+
+                //when mousing over a thumb, make it the main pic; run via a closure
+                (function(a)
+                {
+                    tempThumb.addEventListener("mouseover", function ()
+                    {
+                        galFocus(a);
+                    }, false);
+                }(addr));
+
+                //create the thumb image object itself, and set it to the current file
+                tempImg = document.createElement("img");
+                tempImg.setAttribute("src", "assets/photography/" + data.folder + "thumb/" + res.fileNames[file]);
+
+                //attach the objects
+                tempThumb.appendChild(tempImg);
+                thumbContainer.appendChild(tempThumb);
+            }
+
+            //autoset the main img to the first picture
+            galFocus("assets/photography/" + data.folder + "full/" + res.fileNames[0]);
+
+            //create the close gal button, along with an event listener that hides the gallery, deletes the thumbs, undims
+            var closeGal = document.createElement("button");
+            closeGal.setAttribute("id","closeGal");
+            closeGal.textContent = "Close Gallery";
+            closeGal.addEventListener("click", function()
+            {
+                //undim
+                overlay.style.opacity = "0.0";
+
+                //delete the gallery
+                galContainer.parentNode.removeChild(galContainer);
+            });
+
+            //append close button
+            galContainer.appendChild(closeGal);
+
+            //dim the background
+            overlay.style.opacity = "0.75";
+
+            //show the gallery
+            galContainer.style.visibility =  "visible";
+        }
+        else
+        {
+            alert("Error receiving images from server.");
+            console.log("Error " + req.statusText);
+        }
+    });
+
+    //send the request
+    req.send(JSON.stringify(data));
+}
+
+/*sets the arg imgSrc, assumed to be the path of a pic, to be the current main pic displayed in the gal*/
+function galFocus(imgSrc)
+{
+    console.log("setting main pic to " + imgSrc);
+    document.getElementById("galleryMainPicImg").setAttribute("src", imgSrc);
 }

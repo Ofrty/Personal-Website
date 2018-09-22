@@ -10,20 +10,19 @@
  *********************************************************************************************************************/
 
 /*setup server*/
-var express = require("express");
-var mysql = require("./private/pfnpcDBConnection.js");
-var bodyParser = require("body-parser");
-
-var app = express();
-var handlebars = require("express-handlebars").create({defaultLayout:"main"});
-
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+const handlebars = require("express-handlebars").create({defaultLayout:"main"});
+const fs = require("fs");
 
 app.engine("handlebars", handlebars.engine);
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 app.use(express.static("public"));
 app.set("view engine", "handlebars");
 app.set("port", 8657);
-app.set("mysql", mysql);
+//app.set("mysql", mysql); //TODO: bring this back in when we're ready to connect to a DB
 
 
 /* access control
@@ -40,9 +39,10 @@ app.get("/", function(req,res,next)
     res.redirect('/home');
 });
 
+/*
 app.get("/sql", function(req,res,next)
 {
-    var context = {};
+    const context = {};
 
     mysql.pool.query('SELECT * FROM test_table', function(err,rows,fields)
        {
@@ -53,10 +53,11 @@ app.get("/sql", function(req,res,next)
             res.render("table", context);
        });
 });
+*/
 
 app.get("/home", function(req,res,next)
 {
-    var context = {};
+    const context = {};
 
     context.page = "home";
 
@@ -82,7 +83,7 @@ app.get("/home", function(req,res,next)
 
 app.get("/programming", function(req,res,next)
 {
-    var context = {};
+    const context = {};
 
     context.page = "programming";
 
@@ -90,38 +91,57 @@ app.get("/programming", function(req,res,next)
 
     context.primaryContent =
         (
-  "Here are links to some of my own programming projects. I don't have too much to share yet, but I have some ideas that I hope will become things soon!" +
-  "<br/>" +
-  "<ul id=\"programmingList\">" +
-  "<li><a id=\"fantasyFootballRace\" class=\"programmingListLink\" href=\"https://scratch.mit.edu/projects/119272648/\">Scratch - Fantasy Football Draft Race (had to start somewhere...)</a></li>" +
-  "<li><a id=\"githubHome\" class=\"programmingListLink\" href=\"https://github.com/Ofrty/\">GitHub - Home</a></li>" +
-  "<ul>" +
-  "<li><a id=\"githubPersonalWebsite\" class=\"programmingListLink\" href=\"https://github.com/Ofrty/Personal-Website\">This Website!</a></li>" +
-  "<li><a id=\"githubChateauDaimyo\" class=\"programmingListLink\" href=\"https://github.com/Ofrty/ChateauDaimyo\">\"Chateau Daimyo\" - Small game for Intro to CS Project</a></li>" +
-  "<li><a id=\"githubCreatureTournament\" class=\"programmingListLink\" href=\"https://github.com/Ofrty/CreatureTournament\">\"Creature Tournament\" - Small game for Intro to CS Project</a></li>" +
-  "</ul>" +
-  "</ul>"
+            "Below are links to some of my own programming projects, including GitHub repository links. I have several ideas that I hope to create soon!" +
+
+            "<br/>" +
+            "<ul id=\"programmingList\">" +
+                "<li><b>Viewable Projects</b></li>" +
+            "<ul>" +
+                "<li><a id=\"fantasyFootballRace\" class=\"programmingListLink\" href=\"https://scratch.mit.edu/projects/119272648/\"><b>Fantasy Football Draft Race</b></a> - a fun randomizer for my family's FF league, written in MIT's Scratch</li>" +
+                "<li><a id=\"qualityCare\" class=\"programmingListLink\" href=\"https://ofrty.github.io/projects/quality-care/#!/\"><b>Quality Care (in-development)</b></a> - collaborative project, designed to assist non-native speakers seeking medical treatment</li>" +
+            "</ul>" +
+            "<br/>" +
+            "<li><a id=\"githubHome\" class=\"programmingListLink\" href=\"https://github.com/Ofrty/\"><b>GitHub - Public Profile</b></a></li>" +
+            "<ul>" +
+                "<li><a id=\"githubPersonalWebsite\" class=\"programmingListLink\" href=\"https://github.com/github.ofrty.io\"><b>Personal Webpage Repository</b></a> - how meta!</li>" +
+            "</ul>" +
+            "<br/>" +
+            "<li><b>GitHub - Private Repositories</b> (request approval)</li>" +
+            "<ul>" +
+                "<li><b>School Projects</b> - constious small programs written to satisfy undergraduate-level projects and assignments.</li>" +
+                "<li><b>Traveling Salesman Insertion Heuristic Implementation</b> - the result of curiosity inspired by a TSP school-project, this is the implementation of an algorithm that occurred to me apropos of nothing. It turned out to be a well-known simple Insertion heuristic.</li>" +
+                "<li><b>The Theory</b> - a text-based simulation of a Roulette betting strategy dubbed The Theory, conceived in a late-night conversation. Spoiler alert: the house always wins!</li>" +
+            "</ul>" +
+            "<br/>" +
+            "<li><b>In-Development</b></li>" +
+            "<ul>" +
+                "<li><b>ArcanaBall</b> - a text-based game, in development as a proof-of-concept for a larger project.</li>" +
+                "<li><b>Tabletop NPC Database</b> - a small database of NPCs created for my family Pathfinder game.</li>" +
+                "<li><b>Raspberry Pi Dashcam</b> - a fork of an extant GitHub/Instructables project to automate a Raspberry Pi-based dashcam. Auto-records when car turns on and geotags video metadata.</li>" +
+            "</ul>" +
+
+            "</ul>"
         );
-    
+
     context.secondaryContent =
         "<img src=\"assets/programmingPlaceholder.jpg\" id=\"programmingPlaceholder\" class=\"programmingPic\">" +
         "<img src=\"assets/fantasyFootballRacePic.jpg\" id=\"fantasyFootballRacePic\" class=\"programmingPic\">" +
+        "<img src=\"assets/qualityCare.jpg\" id=\"qualityCarePic\" class=\"programmingPic\">" +
         "<img src=\"assets/githubHome.jpg\" id=\"githubHomePic\" class=\"programmingPic\">" +
-        "<img src=\"assets/githubPersonalWebsite.jpg\" id=\"githubPersonalWebsitePic\" class=\"programmingPic\">" +
-        "<img src=\"assets/githubChateauDaimyo.jpg\" id=\"githubChateauDaimyoPic\" class=\"programmingPic\">";
+        "<img src=\"assets/githubPersonalWebsite.jpg\" id=\"githubPersonalWebsitePic\" class=\"programmingPic\">";
 
     res.render("primaryView", context);
 });
 
 app.get("/creativePursuits", function(req,res,next)
 {
-    var context = {};
+    const context = {};
 
     context.page = "creativePursuits";
 
     context.primaryContentHeader = "Creative Pursuits";
 
-    context.primaryContent = "Music, photography, and DIY projects are all hobbies of mine! As I polish off projects worthy of display, I'll host them here.!"
+    context.primaryContent = "Music, photography, running/playing tabletop RPGs, and DIY projects are all hobbies of mine! As I polish off projects worthy of display, I'll host them here!";
 
     context.secondaryContent =
         "<ul>" +
@@ -133,7 +153,7 @@ app.get("/creativePursuits", function(req,res,next)
 
 app.get("/contact", function(req,res,next)
 {
-    var context = {};
+    const context = {};
 
     context.page = "contact";
 
@@ -152,7 +172,7 @@ app.get("/contact", function(req,res,next)
 /*
 app.get("/music", function(req,res,next)
 {
-    var context = {};
+    const context = {};
 
     context.page = "music";
 
@@ -185,7 +205,7 @@ app.get("/music", function(req,res,next)
 
 app.get("/photography", function(req,res,next)
 {
-    var context = {};
+    const context = {};
 
     context.page = "photography";
 
@@ -193,14 +213,33 @@ app.get("/photography", function(req,res,next)
 
     context.primaryContent = "The world is a lovely place, and it's fun to capture some of it. On the rare occasions I find myself in areas with low light pollution, I turn my camera skyward.";
 
-    context.secondaryContent = "Astrophotography";
+    context.secondaryContent =
+        "<ul id = \"photographyList\">" +
+            "<li>Astrophotography</li>" +
+            "<li>The Netherlands</li>" +
+            "<li>Doggos</li>" +
+        "</ul>";
 
     res.render("primaryView", context);
 });
 
+app.post('/public/assets/photography/*', function(req,res)
+{
+    const context = {};
+
+    fs.readdir('public/assets/photography/' + req.body.folder + 'full/', function (err, files)
+    {
+        console.log(files);
+
+        context.fileNames = files;
+
+        res.send(context);
+    });
+});
+
 app.get('/*', function(req,res,next)
 {
-    var context = {};
+    const context = {};
 
     context.primaryContentHeader = "You've fallen off the map!";
 

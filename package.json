@@ -9,10 +9,11 @@
   "author": "Ofrty",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.13.3",
+    "@google-cloud/translate": "^1.1.0",
+    "body-parser": "^1.18.3",
     "express": "^4.13.2",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.11.3",
-    "mysql": "^2.15.0"
+    "mysql": "^2.16.0"
   }
 }

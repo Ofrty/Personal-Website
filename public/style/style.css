@@ -9,9 +9,16 @@
 */
 
 /*variables*/
+:root
+{
+    /*use aspect ratio factor * this*/
+    --main-gallery-scale: 46;
+    --main-gallery-thumb-scale: 8;
+    --footer-size: 13.5pt;
+}
 
 
-/*General*/
+/**Global**/
 html
 {
 }
@@ -26,7 +33,7 @@ img
     width: 100%;
 }
 
-/*Header*/
+/**Header**/
 header
 {
     margin: auto;
@@ -99,13 +106,14 @@ h2
     font-family: "Open Sans", sans-serif;
 }
 
-.contentWrapper
+.contentContainer
 {
     position: relative;
     margin: 5px auto 5px;
     padding: 0 2.1vw;
     width: 83.3vw;
-    height: 63vh;
+    overflow: auto;
+    min-height: 62vh;
     background-image: linear-gradient(45deg, #664499, white);
     font-family: "Open Sans", sans-serif;
     font-size: calc(50% + .4vw + .4vh);
@@ -115,10 +123,9 @@ h2
 {
     position: absolute;
     padding: 0 5px;
-    height: inherit;
+    height: 100%;
     width: 50%;
     cursor: context-menu;
-    overflow: hidden;
 }
 
 .secondaryContent
@@ -129,15 +136,15 @@ h2
     margin: auto;
     right: 2.1vw;
     width: 33.33%;
-    height: inherit;
-    overflow: hidden;
+    height: 100%
 }
 
 footer
 {
-    position: absolute;
-    margin: auto;
+    position: fixed;
+    margin: auto auto 0 auto;
     text-align: center;
+    font-size: var(--footer-size)pt;
 
     /*how to stretch full screen width, but never have a horizontal scrollbar*/
     width: 100%;
@@ -150,12 +157,12 @@ footer
     color: #6633ee;
 }
 
-/*Home*/
+/**Home**/
 .twitter-timeline
 {
 }
 
-/*Programming*/
+/**Programming**/
 .programmingPic
 {
     position: absolute;
@@ -175,34 +182,94 @@ footer
     text-align: left;
 }
 
-/*Music*/
+/*TODO: make programming previews stay fixed. problem: pictures are too big when using below method
+#programmingSecondaryContent
+{
+    position: fixed;
+    display: flex;
+    right: 12vw;
+    top: 15vh;
+}
+*/
+
+/**Music**/
 audio
 {
     padding: 20px 0 0 0;
 }
 
-/*Photography*/
-#photogScrollContainer
+/**Photography**/
+#overlay
 {
-    display: inline-flex;
-    padding: 0 4% 0 4%;
-    max-width: 92%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: var(--footer-size);
+    width: 100vw;
+    height: calc(100vh - var(--footer-size));
+    background: black;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
 }
 
-.photogScroll
+#galleryContainer
 {
-    margin: auto;
-    max-height: 32vw;
-    max-width: 29%;
-    padding: 1%;
-    background-color: #221166;
-    overflow: scroll;
+    position: fixed;
+    display: flex;
+    visibility: hidden;
+    justify-content: center;
+    width: calc(3vmin * var(--main-gallery-scale));
+    height: calc(2vmin * var(--main-gallery-scale));
+    top: 5vh;
+    left: calc(calc(100% - calc(3vmin * var(--main-gallery-scale))) / 2);
+    z-index: 1;
+    background: #000033a3;
+}
+
+#galleryMainPicContainer
+{
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    top: 0;
+}
+
+#galleryCaption
+{
+    position: absolute;
     text-align: center;
-    font-size: calc(45% + .5vw);
+    top: 80%;
+    width: 80%;
+    height: 1.5em;
+    font-size: 14pt;
+    color: pink;
 }
 
-.photogPicture
+#closeGal
 {
-    max-width: 98%;
-    padding-bottom: 2%;
+    position: absolute;
+    top: -4vh;
+    font-family: "Georgia";
+}
+
+#thumbContainer
+{
+    position: absolute;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: space-evenly;
+    bottom: 0;
+    width: calc(3vmin * var(--main-gallery-scale));
+    height: calc(2vmin * calc(var(--main-gallery-scale) / var(--main-gallery-thumb-scale)));
+}
+
+div .thumb
+{
+    display: inline-block;
+    width: calc(3vmin * calc(var(--main-gallery-scale) / var(--main-gallery-thumb-scale)));
+    min-width: calc(3vmin * calc(var(--main-gallery-scale) / var(--main-gallery-thumb-scale)));
+    height: inherit;
+    padding: 0 10px;
 }
