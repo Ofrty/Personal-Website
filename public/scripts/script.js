@@ -268,6 +268,7 @@ function photoListInit()
 }
 
 /*displays the gallery based on user selection. assembles gallery after pic names received from server*/
+//TODO: escape key closes gallery, left & right navigate left and right
 function galleryRun(gal)
 {
     //create and insert gallery elements
@@ -362,9 +363,21 @@ function galleryRun(gal)
     req.send(JSON.stringify(data));
 }
 
-/*sets the arg imgSrc, assumed to be the path of a pic, to be the current main pic displayed in the gal*/
+/*swaps the main pic of the gallery via fade transition*/
+//TODO: fix focusing behavior. was trying to base it off of the fade in/out funcs that I used for the programming page
 function galFocus(imgSrc)
 {
     console.log("setting main pic to " + imgSrc);
-    document.getElementById("galleryMainPicImg").setAttribute("src", imgSrc);
+
+    //find the cur main image
+    var main = document.getElementById("galleryMainPicImg");
+
+    //fade out the old pic
+//    fadeOut(main, 1);
+
+    //set the new pic
+    main.setAttribute("src", imgSrc);
+
+    //fade in the new pic
+//    fadeIn(main, 1);
 }
