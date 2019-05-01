@@ -162,6 +162,7 @@ function programmingListOutBehavior(name)
 
     if (outPic)
     {
+
         (function fadeOutLoop()
         {
             setTimeout(function()
@@ -341,10 +342,26 @@ function galleryRun(gal)
 
                 //delete the gallery
                 galContainer.parentNode.removeChild(galContainer);
+
+                //remove the esc key listener
+                document.onkeydown = null;
             });
 
             //append close button
             galContainer.appendChild(closeGal);
+
+            //pressing esc key closes gallery
+            document.onkeydown = function (event)
+            {
+                //console.log("onkeydown function exectuing"); //debug
+
+                if (event.keyCode === 27)  // 27 is the ESC key
+                {
+                    closeGal.click();
+
+                    //console.log("detected esc press"); //debug
+                }
+            };
 
             //dim the background
             overlay.style.opacity = "0.75";
@@ -363,21 +380,14 @@ function galleryRun(gal)
     req.send(JSON.stringify(data));
 }
 
-/*swaps the main pic of the gallery via fade transition*/
-//TODO: fix focusing behavior. was trying to base it off of the fade in/out funcs that I used for the programming page
+/*sets the main pic of the gallery*/
 function galFocus(imgSrc)
 {
-    console.log("setting main pic to " + imgSrc);
+    //console.log("setting main pic to " + imgSrc);
 
     //find the cur main image
     var main = document.getElementById("galleryMainPicImg");
 
-    //fade out the old pic
-//    fadeOut(main, 1);
-
     //set the new pic
     main.setAttribute("src", imgSrc);
-
-    //fade in the new pic
-//    fadeIn(main, 1);
 }
