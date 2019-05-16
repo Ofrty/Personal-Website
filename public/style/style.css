@@ -35,6 +35,11 @@ img
     width: auto;
 }
 
+ul
+{
+    margin-bottom: 1em;
+}
+
 /**Header**/
 header
 {
@@ -74,6 +79,7 @@ header
 
 .nav_button
 {
+    cursor: pointer;
     background-color: inherit;
     color: #8877BB;
     font-family: "Georgia";
@@ -84,7 +90,6 @@ header
 .nav_button:hover
 {
     opacity: 0.67;
-    cursor: pointer;
 }
 
 #headerFoot
@@ -171,6 +176,8 @@ footer
     left:  0;
     opacity: 0.0;
     visibility: hidden;
+    max-height: 100%;
+    max-width: 100%;
 }
 
 #programmingPlaceholder
@@ -184,7 +191,6 @@ footer
     text-align: left;
 }
 
-/*TODO: make programming previews stay fixed. problem: pictures are too big when using below method
 #programmingSecondaryContent
 {
     position: fixed;
@@ -192,7 +198,6 @@ footer
     right: 12vw;
     top: 15vh;
 }
-*/
 
 /**Music**/
 audio
@@ -201,6 +206,25 @@ audio
 }
 
 /**Photography**/
+#photographyList
+{
+    text-align: center;
+    font-family: "Georgia";
+    font-size: calc(100% + .4vw + .4vh);
+}
+
+#photographyList div
+{
+    cursor: pointer;
+    margin: 2em;
+}
+
+#photographyList div:hover
+{
+    opacity: 0.67;
+}
+
+
 #overlay
 {
     position: fixed;

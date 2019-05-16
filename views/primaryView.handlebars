@@ -14,7 +14,9 @@
 <div id="contentContainer" class="contentContainer">
     <div id="{{page}}PrimaryContent" class="primaryContent">
         <h2>{{primaryContentHeader}}</h2>
-        {{{primaryContent}}}
+        {{#each primaryContent}}
+            <p>{{{this}}}</p>
+        {{/each}}
     </div>
 
     <div id="{{page}}SecondaryContent" class="secondaryContent">

@@ -15,8 +15,6 @@ const bodyParser = require("body-parser");
 const app = express();
 const handlebars = require("express-handlebars").create({defaultLayout:"main"});
 const fs = require("fs");
-const node_ajax = require("xmlhttprequest").XMLHttpRequest;
-
 
 app.engine("handlebars", handlebars.engine);
 app.use(bodyParser.urlencoded({extended:true}));
@@ -24,8 +22,6 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.set("view engine", "handlebars");
 app.set("port", 8657);
-//app.set("mysql", mysql); //TODO: bring this back in when we're ready to connect to a DB
-
 
 /* access control
 app.use(function(req, res, next) {
@@ -36,28 +32,12 @@ app.use(function(req, res, next) {
 */
 
 /*homepage*/
-app.get("/", function(req,res,next)
+app.get("/", function(req,res)
 {
     res.redirect('/home');
 });
 
-/*
-app.get("/sql", function(req,res,next)
-{
-    const context = {};
-
-    mysql.pool.query('SELECT * FROM test_table', function(err,rows,fields)
-       {
-            context.results = rows;
-
-            console.log(rows);
-
-            res.render("table", context);
-       });
-});
-*/
-
-app.get("/home", function(req,res,next)
+app.get("/home", function(req,res)
 {
     const context = {};
 
@@ -65,8 +45,9 @@ app.get("/home", function(req,res,next)
 
     context.primaryContentHeader = "Welcome to my webpage - I'm glad that you're here!";
 
+    /*
     context.primaryContent =
-        "A bit about me: I earn my living as a Data Analyst and am working to grow creatively as a developer, musician, and photographer." +
+        "A bit about me: I earn my living working with databases and am working to grow creatively as a developer, musician, and photographer." +
         "<br/>" +
         "<br/>" +
         "If you would like to get in touch, please be sure to visit my Contact page." +
@@ -75,7 +56,15 @@ app.get("/home", function(req,res,next)
         "In the interim, selected programming and creative projects are hosted here for viewing. I hope you find something of interest!" +
         "<br/>" +
         "<br/>" +
-        "Richard Feynman is a personal hero - ponder some Feynman wisdom!";
+        Richard Feynman is a personal hero - ponder some Feynman wisdom!;
+    */
+
+    context.primaryContent = {};
+    context.primaryContent.a = "A bit about me: I earn my living working with databases and am working to grow creatively as a developer, musician, and photographer.";
+    context.primaryContent.b = "If you would like to get in touch, please be sure to visit my Contact page.";
+    context.primaryContent.c = "In the interim, selected programming and creative projects are hosted here for viewing. I hope you find something of interest!";
+    context.primaryContent.d = "Richard Feynman is a personal hero - ponder some Feynman wisdom!";
+    context.primaryContent.e = "Cheers,<br/>Joe";
 
     context.secondaryContent =
         "<a class=\"twitter-timeline\" data-chrome=\"nofooter transparent\" data-height=\"55vh\" data-theme=\"light\" href=\"https://twitter.com/ProfFeynman?ref_src=twsrc%5Etfw\"></a>";
@@ -83,7 +72,7 @@ app.get("/home", function(req,res,next)
     res.render("primaryView", context);
 });
 
-app.get("/programming", function(req,res,next)
+app.get("/programming", function(req,res)
 {
     const context = {};
 
@@ -93,39 +82,31 @@ app.get("/programming", function(req,res,next)
 
     /*TODO: make a GET request to loop through all viewable projects, e.g., ofrty.github.io/jamerator. "GET /repos/:owner/:repo/projects" ; https://developer.github.com/v3/projects/#list-repository-projects*/
 
-    context.primaryContent =
-        (
-            "Below are links to some of my own programming projects, including GitHub repository links. I have several ideas that I hope to create soon!" +
-
-            "<br/>" +
-            "<ul id=\"programmingList\">" +
-                "<li><b>Viewable Projects</b></li>" +
+    context.primaryContent = {};
+    context.primaryContent.a = "Below are links to some of my own programming projects, including GitHub repository links. I have several ideas that I hope to create soon!";
+    context.primaryContent.b =
+        "<ul id=\"programmingList\">" +
+            /*
+            "<li><b>Viewable Projects</b></li>" +
             "<ul>" +
                 "<li><a id=\"fantasyFootballRace\" class=\"programmingListLink\" href=\"https://scratch.mit.edu/projects/119272648/\"><b>Fantasy Football Draft Race</b></a> - a fun randomizer for my family's FF league, written in MIT's Scratch</li>" +
-                /*"<li><a id=\"qualityCare\" class=\"programmingListLink\" href=\"https://ofrty.github.io/projects/quality-care/#!/\"><b>Quality Care (in-development)</b></a> - collaborative project, designed to assist non-native speakers seeking medical treatment</li>" +*/
+                // "<li><a id=\"qualityCare\" class=\"programmingListLink\" href=\"https://ofrty.github.io/projects/quality-care/#!/\"><b>Quality Care (in-development)</b></a> - collaborative project, designed to assist non-native speakers seeking medical treatment</li>" +
             "</ul>" +
-            "<br/>" +
+            */
             "<li><a id=\"githubHome\" class=\"programmingListLink\" href=\"https://github.com/Ofrty/\"><b>GitHub - Public Profile</b></a></li>" +
             "<ul>" +
                 "<li><a id=\"githubPersonalWebsite\" class=\"programmingListLink\" href=\"https://github.com/github.ofrty.io\"><b>Personal Webpage Repository</b></a> - how meta!</li>" +
             "</ul>" +
-            "<br/>" +
-            "<li><b>GitHub - Private Repositories</b> (request approval)</li>" +
+            "<li><b>GitHub - Private Projects</b> (request access approval)</li>" +
             "<ul>" +
                 "<li><b>School Projects</b> - various small programs written to satisfy undergraduate-level projects and assignments.</li>" +
                 /*"<li><b>Traveling Salesman Insertion Heuristic Implementation</b> - the result of curiosity inspired by a TSP school-project, this is the implementation of an algorithm that occurred to me apropos of nothing. It turned out to be a well-known simple Insertion heuristic.</li>" +
                 "<li><b>The Theory</b> - a text-based simulation of a Roulette betting strategy dubbed The Theory, conceived in a late-night conversation. Spoiler alert: the house always wins!</li>" +*/
-            "</ul>" +
-            "<br/>" +
-            "<li><b>In-Development</b></li>" +
-            "<ul>" +
                 "<li><b>ArcanaBall</b> - a text-based game, in development as a proof-of-concept for a larger project.</li>" +
                 /*"<li><b>Tabletop NPC Database</b> - a small database of NPCs created for my family Pathfinder game.</li>" +*/
                 "<li><b>Raspberry Pi Dashcam</b> - a fork of an extant GitHub/Instructables project to automate a Raspberry Pi-based dashcam. Auto-records when car turns on and geotags video metadata.</li>" +
             "</ul>" +
-
-            "</ul>"
-        );
+        "</ul>";
 
     context.secondaryContent =
         "<img src=\"assets/programmingPlaceholder.jpg\" id=\"programmingPlaceholder\" class=\"programmingPic\">" +
@@ -137,7 +118,7 @@ app.get("/programming", function(req,res,next)
     res.render("primaryView", context);
 });
 
-app.get("/creativePursuits", function(req,res,next)
+app.get("/creativePursuits", function(req,res)
 {
     const context = {};
 
@@ -145,31 +126,20 @@ app.get("/creativePursuits", function(req,res,next)
 
     context.primaryContentHeader = "Creative Pursuits";
 
-    /*this node xmlhttprequest wrapper isn't working very well
-    var pc = new node_ajax();
-    pc.open("GET", "/public/html/photogPrim.html", false);
-    pc.responseType = "document";
-    pc.send();
-
-    pc.onload = function()
-    {
-        context.primaryContent = pc.responseText;
-    };
-    */
-
-    context.primaryContent = "Music, photography, running/playing tabletop RPGs, and DIY projects are all hobbies of mine! As I polish off projects worthy of display, I'll host them here!";
+    context.primaryContent = {};
+    context.primaryContent.a = "Music, photography, running/playing tabletop RPGs, and DIY projects are all hobbies of mine! As I polish off projects worthy of display, I'll host them here!";
 
     context.secondaryContent =
         "<ul>" +
         "<li><a href=\"photography\">Photography</a></li>" +
         "</ul>";
 
-    console.log(context); //debug
+    //console.log(context); //debug
 
     res.render("primaryView", context);
 });
 
-app.get("/contact", function(req,res,next)
+app.get("/contact", function(req,res)
 {
     const context = {};
 
@@ -177,18 +147,17 @@ app.get("/contact", function(req,res,next)
 
     context.primaryContentHeader = "Contact";
 
-    context.primaryContent =
-        "Looking to get in touch?" +
-        "<br/>" +
-        "<br/>" +
-        "Please direct any inquiries to my public contact box {{$$EMAIL HERE$$}}.";
+    context.primaryContent = {};
+    context.primaryContent.a = "Looking to get in touch?";
+    //TODO: create public contact email
+    context.primaryContent.b = "Please direct any inquiries to my public contact box {{$$EMAIL HERE$$}}.";
 
     context.secondaryContent = "Hey! I'll put something over here when I think of something good!";
 
     res.render("primaryView", context);
 });
 /*
-app.get("/music", function(req,res,next)
+app.get("/music", function(req,res)
 {
     const context = {};
 
@@ -221,7 +190,7 @@ app.get("/music", function(req,res,next)
 });
 */
 
-app.get("/photography", function(req,res,next)
+app.get("/photography", function(req,res)
 {
     const context = {};
 
@@ -229,14 +198,16 @@ app.get("/photography", function(req,res,next)
 
     context.primaryContentHeader = "Photography";
 
-    context.primaryContent = "The world is a lovely place, and it's fun to capture some of it. On the rare occasions I find myself in areas with low light pollution, I turn my camera skyward.";
+    context.primaryContent = {};
+    context.primaryContent.a = "The world is a lovely place, and it's fun to capture some of it. On the rare occasions I find myself in areas with low light pollution, I turn my camera skyward.";
+    context.primaryContent.b = "Select a gallery from the list to see my select favorites!";
 
     context.secondaryContent =
-        "<ul id = \"photographyList\">" +
-            "<li>Astrophotography</li>" +
-            "<li>The Netherlands</li>" +
-            "<li>Doggos</li>" +
-        "</ul>";
+        "<div id=\"photographyList\">" +
+            "<div>Astrophotography</div>" +
+            "<div>The Netherlands</div>" +
+            "<div>Doggos</div>" +
+        "</div>";
 
     res.render("primaryView", context);
 });
@@ -255,7 +226,7 @@ app.post('/public/assets/photography/*', function(req,res)
     });
 });
 
-app.get('/*', function(req,res,next)
+app.get('/*', function(req,res)
 {
     const context = {};
 
@@ -274,7 +245,7 @@ app.use(function(req,res){
     res.render("404");
 });
 
-app.use(function(err, req, res, next){
+app.use(function(err, req, res){
     console.error(err.stack);
     res.type("plain/text");
     res.status(500);

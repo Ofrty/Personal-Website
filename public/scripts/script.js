@@ -200,7 +200,7 @@ function fadeOut(obj, delta)
     obj.style.opacity -= delta;
 }
 
-/**photography**/ //TODO: netherlands domtower pic dimensions wrong on export TODO: scroll bar for gallery broken on netherlands, may be related to domtower dimensions issue
+/**photography**/
 /*initialize the photo gallery structure and control*/
 function galleryInit()
 {
@@ -269,7 +269,6 @@ function photoListInit()
 }
 
 /*displays the gallery based on user selection. assembles gallery after pic names received from server*/
-//TODO: escape key closes gallery, left & right navigate left and right
 function galleryRun(gal)
 {
     //create and insert gallery elements
