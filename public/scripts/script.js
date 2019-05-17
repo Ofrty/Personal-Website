@@ -3,7 +3,7 @@
 
 //programming page
 //set isOn objects
-var isOnList = {};
+let isOnList = {};
 
 main();
 
@@ -32,17 +32,17 @@ function buildNavbar()
 {
     const BUTTON_COUNT = 4;
 
-    var bar = document.getElementById("headerNavbar");
-    var navButtons = [];
+    let bar = document.getElementById("headerNavbar");
+    let navButtons = [];
 
     //create and append buttons buttons
-    for (var i = 0; i < BUTTON_COUNT ; i++)
+    for (let i = 0; i < BUTTON_COUNT ; i++)
     {
         navButtons.push(document.createElement("button"));
     }
 
     //set button names and links
-    var navButtonAttributes =
+    let navButtonAttributes =
     {
         names: [],
         links: []
@@ -56,7 +56,7 @@ function buildNavbar()
 
     //build the damn thing
     //append buttons via a loop
-    for (var i = 0; i < BUTTON_COUNT ; i++)
+    for (let i = 0; i < BUTTON_COUNT ; i++)
     {
         bar.appendChild(navButtons[i]);
     }
@@ -65,7 +65,7 @@ function buildNavbar()
 /*for each function that does something for every button in the navbar*/
 function forEachButton(buttons, buttonAttributes, formatNavButtons)
 {
-    for (var i = 0; i < buttons.length; i++)
+    for (let i = 0; i < buttons.length; i++)
     {
         formatNavButtons(buttons[i], buttonAttributes.names[i], buttonAttributes.links[i]);
     }
@@ -87,10 +87,10 @@ function formatNavButtons(button, buttonName, buttonLink)
 * */
 function programmingPicPreviews() {
     //get all links
-    var list = document.getElementsByClassName("programmingListLink");
+    let list = document.getElementsByClassName("programmingListLink");
 
     //add a hover event listener to each item in the list
-    for (var i = 0; i < list.length; i++)
+    for (let i = 0; i < list.length; i++)
     {
         list[i].addEventListener("mouseover", function (j)
             {
@@ -116,15 +116,15 @@ function programmingPicPreviews() {
 function programmingListHoverBehavior(name)
 {
     //console.log("hovering over " + name);
-    var allPics = document.getElementsByClassName("programmingPic");
-    var placeholder = document.getElementById("programmingPlaceholder");
-    var inPic = document.getElementById(name + "Pic");
+    let allPics = document.getElementsByClassName("programmingPic");
+    let placeholder = document.getElementById("programmingPlaceholder");
+    let inPic = document.getElementById(name + "Pic");
 
     //turn on the hover indicator
     isOnList[name] = 1;
 
     //make all images hide except placeholder
-    for (var i = 0; i < allPics.length; i++)
+    for (let i = 0; i < allPics.length; i++)
     {
         /*allPics[i].style.visibility = "hidden";*/
         placeholder.style.visibility = "visible";
@@ -155,7 +155,7 @@ function programmingListHoverBehavior(name)
 /*handles the behavior of pictures when the cursor is moved off of their title*/
 function programmingListOutBehavior(name)
 {
-    var outPic = document.getElementById(name + "Pic");
+    let outPic = document.getElementById(name + "Pic");
 
     //turn off the hover indicator
     isOnList[name] = 0;
@@ -187,7 +187,7 @@ function programmingListOutBehavior(name)
 * */
 function fadeIn(obj, delta)
 {
-    var temp = obj.style.opacity;
+    let temp = obj.style.opacity;
     temp = Number(temp) + delta;
     obj.style.opacity = temp;
 }
@@ -201,61 +201,16 @@ function fadeOut(obj, delta)
 }
 
 /**photography**/
-/*initialize the photo gallery structure and control*/
+/*initialize the photo gallery structure and control. sets event listeners on the photo list items*/
 function galleryInit()
 {
-    //init photog list listeners
-    photoListInit();
-}
-
-/*create and insert gallery elements*/
-function galleryElements()
-{
-    //create and insert gallery DOM elements. container; main pic; thumb container; caption box
-    var contentContainer = document.getElementById("contentContainer"); //reference point for insertion
-
-    //overlay for dimming
-    var overlay = document.createElement("div");
-    overlay.setAttribute("id", "overlay");
-
-    //create container
-    var galleryContainer = document.createElement("div");
-    galleryContainer.setAttribute("id","galleryContainer");
-
-    //create main pic img & div
-    var galleryMainPicContainer = document.createElement("div");
-    galleryMainPicContainer.setAttribute("id","galleryMainPicContainer");
-    var galleryMainPicImg = document.createElement("img");
-    galleryMainPicImg.setAttribute("id","galleryMainPicImg");
-
-    //create caption
-    var galleryCaption = document.createElement("div");
-    galleryCaption.setAttribute("id","galleryCaption");
-    galleryCaption.textContent = "CAPTION TEXT";
-
-    //create thumb container
-    var thumbContainer = document.createElement("div");
-    thumbContainer.setAttribute("id", "thumbContainer");
-
-    //append
-    document.getElementsByTagName("body")[0].appendChild(overlay);
-    galleryMainPicContainer.appendChild(galleryMainPicImg);
-    galleryContainer.appendChild(galleryMainPicContainer);
-    galleryContainer.appendChild(galleryCaption);
-    galleryContainer.appendChild(thumbContainer);
-    contentContainer.parentNode.insertBefore(galleryContainer, contentContainer.nextSibling);
-}
-
-/*sets event listeners on the photo list items*/
-function photoListInit()
-{
     //get list
-    var galList = document.getElementById("photographyList");
+    let galList = document.getElementById("photographyList");
 
     //set event listeners on all children
-    for (var i = 0; i < galList.children.length; i++)
+    for (let i = 0; i < galList.children.length; i++)
     {
-        var tempText = galList.children[i].textContent;
+        let tempText = galList.children[i].textContent;
 
         galList.children[i].addEventListener("click", function(t)
             {
@@ -268,6 +223,44 @@ function photoListInit()
     }
 }
 
+/*create and insert gallery elements*/
+function galleryElements()
+{
+    //create and insert gallery DOM elements. container; main pic; thumb container; caption box
+    let contentContainer = document.getElementById("contentContainer"); //reference point for insertion
+
+    //overlay for dimming
+    let overlay = document.createElement("div");
+    overlay.setAttribute("id", "overlay");
+
+    //create container
+    let galleryContainer = document.createElement("div");
+    galleryContainer.setAttribute("id","galleryContainer");
+
+    //create main pic img & div
+    let galleryMainPicContainer = document.createElement("div");
+    galleryMainPicContainer.setAttribute("id","galleryMainPicContainer");
+    let galleryMainPicImg = document.createElement("img");
+    galleryMainPicImg.setAttribute("id","galleryMainPicImg");
+
+    //create caption
+    let galleryCaption = document.createElement("div");
+    galleryCaption.setAttribute("id","galleryCaption");
+    galleryCaption.textContent = "CAPTION TEXT";
+
+    //create thumb container
+    let thumbContainer = document.createElement("div");
+    thumbContainer.setAttribute("id", "thumbContainer");
+
+    //append
+    document.getElementsByTagName("body")[0].appendChild(overlay);
+    galleryMainPicContainer.appendChild(galleryMainPicImg);
+    galleryContainer.appendChild(galleryMainPicContainer);
+    galleryContainer.appendChild(galleryCaption);
+    galleryContainer.appendChild(thumbContainer);
+    contentContainer.parentNode.insertBefore(galleryContainer, contentContainer.nextSibling);
+}
+
 /*displays the gallery based on user selection. assembles gallery after pic names received from server*/
 function galleryRun(gal)
 {
@@ -275,14 +268,14 @@ function galleryRun(gal)
     galleryElements();
 
     //prep data to post to server; folder name
-    var data = {};
+    let data = {};
     data.folder = (gal.toLowerCase() + "/");
 
     //create and prep
-    var req = new XMLHttpRequest();
+    let req = new XMLHttpRequest();
     req.open("POST", "public/assets/photography/" + gal.toLowerCase(), true);
     req.setRequestHeader("Content-Type", "application/json");
-    var res = null;
+    let res = null;
 
     //do all the stuff from the request after it loads
     req.addEventListener("load", function()
@@ -295,19 +288,21 @@ function galleryRun(gal)
             res = JSON.parse(req.response);
 
             //prep gal objects
-            var overlay = document.getElementById("overlay");
-            var galContainer = document.getElementById("galleryContainer");
-            var thumbContainer = document.getElementById("thumbContainer");
-            var tempThumb;
-            var tempImg;
+            let overlay = document.getElementById("overlay");
+            let galContainer = document.getElementById("galleryContainer");
+            let thumbContainer = document.getElementById("thumbContainer");
+            let tempThumb;
+            let tempImg;
+
+            //TODO: get pic metadata ("Comments") as picture captions
 
             //create and append one thumb per file, including hover behavior
-            for (var file in res.fileNames)
+            for (let file in res.fileNames)
             {
                 //create thumb container, adding an event listener to make it selectable as the main img
                 tempThumb = document.createElement("div");
                 tempThumb.classList.add("thumb");
-                var addr = ("assets/photography/" + data.folder + "full/" + res.fileNames[file]);
+                let addr = ("assets/photography/" + data.folder + "full/" + res.fileNames[file]);
 
                 //when mousing over a thumb, make it the main pic; run via a closure
                 (function(a)
@@ -331,7 +326,7 @@ function galleryRun(gal)
             galFocus("assets/photography/" + data.folder + "full/" + res.fileNames[0]);
 
             //create the close gal button, along with an event listener that hides the gallery, deletes the thumbs, undims
-            var closeGal = document.createElement("button");
+            let closeGal = document.createElement("button");
             closeGal.setAttribute("id","closeGal");
             closeGal.textContent = "Close Gallery";
             closeGal.addEventListener("click", function()
@@ -385,7 +380,7 @@ function galFocus(imgSrc)
     //console.log("setting main pic to " + imgSrc);
 
     //find the cur main image
-    var main = document.getElementById("galleryMainPicImg");
+    let main = document.getElementById("galleryMainPicImg");
 
     //set the new pic
     main.setAttribute("src", imgSrc);

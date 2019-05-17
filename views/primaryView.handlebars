@@ -2,7 +2,7 @@
     <h1>joe kirkham</h1>
 
     <div id="navbarPicContainer">
-        <img id="headerPic" src="assets/homeHeader.jpg">
+        <img id="headerPic" src="assets/homeHeader.jpg" alt="">
         <div id="headerNavbar">
             <!-- JS will generate nav button elements here -->
         </div>
@@ -20,6 +20,9 @@
     </div>
 
     <div id="{{page}}SecondaryContent" class="secondaryContent">
-        {{{secondaryContent}}}
+        {{#each secondaryContent}}
+            {{{this}}}
+            <br/>
+        {{/each}}
     </div>
 </div>

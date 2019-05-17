@@ -31,6 +31,8 @@ app.use(function(req, res, next) {
 });
 */
 
+//TODO: investigate handlebars pre-packaged templates and whether or not they would improve performance
+
 /*homepage*/
 app.get("/", function(req,res)
 {
@@ -39,25 +41,11 @@ app.get("/", function(req,res)
 
 app.get("/home", function(req,res)
 {
-    const context = {};
+    let  context = {};
 
     context.page = "home";
 
     context.primaryContentHeader = "Welcome to my webpage - I'm glad that you're here!";
-
-    /*
-    context.primaryContent =
-        "A bit about me: I earn my living working with databases and am working to grow creatively as a developer, musician, and photographer." +
-        "<br/>" +
-        "<br/>" +
-        "If you would like to get in touch, please be sure to visit my Contact page." +
-        "<br/>" +
-        "<br/>" +
-        "In the interim, selected programming and creative projects are hosted here for viewing. I hope you find something of interest!" +
-        "<br/>" +
-        "<br/>" +
-        Richard Feynman is a personal hero - ponder some Feynman wisdom!;
-    */
 
     context.primaryContent = {};
     context.primaryContent.a = "A bit about me: I earn my living working with databases and am working to grow creatively as a developer, musician, and photographer.";
@@ -66,7 +54,8 @@ app.get("/home", function(req,res)
     context.primaryContent.d = "Richard Feynman is a personal hero - ponder some Feynman wisdom!";
     context.primaryContent.e = "Cheers,<br/>Joe";
 
-    context.secondaryContent =
+    context.secondaryContent = {};
+    context.secondaryContent.a =
         "<a class=\"twitter-timeline\" data-chrome=\"nofooter transparent\" data-height=\"55vh\" data-theme=\"light\" href=\"https://twitter.com/ProfFeynman?ref_src=twsrc%5Etfw\"></a>";
 
     res.render("primaryView", context);
@@ -74,13 +63,13 @@ app.get("/home", function(req,res)
 
 app.get("/programming", function(req,res)
 {
-    const context = {};
+    let  context = {};
 
     context.page = "programming";
 
     context.primaryContentHeader = "Programming Projects";
 
-    /*TODO: make a GET request to loop through all viewable projects, e.g., ofrty.github.io/jamerator. "GET /repos/:owner/:repo/projects" ; https://developer.github.com/v3/projects/#list-repository-projects*/
+    /*TODO: dynamically GET rall viewable projects, e.g., ofrty.github.io/jamerator. "GET /repos/:owner/:repo/projects" ; https://developer.github.com/v3/projects/#list-repository-projects*/
 
     context.primaryContent = {};
     context.primaryContent.a = "Below are links to some of my own programming projects, including GitHub repository links. I have several ideas that I hope to create soon!";
@@ -95,7 +84,8 @@ app.get("/programming", function(req,res)
             */
             "<li><a id=\"githubHome\" class=\"programmingListLink\" href=\"https://github.com/Ofrty/\"><b>GitHub - Public Profile</b></a></li>" +
             "<ul>" +
-                "<li><a id=\"githubPersonalWebsite\" class=\"programmingListLink\" href=\"https://github.com/github.ofrty.io\"><b>Personal Webpage Repository</b></a> - how meta!</li>" +
+                "<li><a id=\"githubioJamerator\" href=\"https://ofrty.github.io/jamerator/\"><b>Jamerator</b></a> - generate random musical parameters for practicing/jamming! Includes guitar tablature for relevant guitar patterns.</li>" +
+                "<li><a id=\"githubPersonalWebsite\" class=\"programmingListLink\" href=\"https://github.com/github.ofrty.io\"><b>Personal Webpage Source</b></a> - how meta!</li>" +
             "</ul>" +
             "<li><b>GitHub - Private Projects</b> (request access approval)</li>" +
             "<ul>" +
@@ -108,19 +98,20 @@ app.get("/programming", function(req,res)
             "</ul>" +
         "</ul>";
 
-    context.secondaryContent =
-        "<img src=\"assets/programmingPlaceholder.jpg\" id=\"programmingPlaceholder\" class=\"programmingPic\">" +
-        "<img src=\"assets/fantasyFootballRacePic.jpg\" id=\"fantasyFootballRacePic\" class=\"programmingPic\">" +
-        "<img src=\"assets/qualityCare.jpg\" id=\"qualityCarePic\" class=\"programmingPic\">" +
-        "<img src=\"assets/githubHome.jpg\" id=\"githubHomePic\" class=\"programmingPic\">" +
-        "<img src=\"assets/githubPersonalWebsite.jpg\" id=\"githubPersonalWebsitePic\" class=\"programmingPic\">";
+    context.secondaryContent = {};
+    context.secondaryContent.a =
+        "<img src=\"assets/programmingPlaceholder.jpg\" id=\"programmingPlaceholder\" class=\"programmingPic\" alt=\"\">" +
+        "<img src=\"assets/fantasyFootballRacePic.jpg\" id=\"fantasyFootballRacePic\" class=\"programmingPic\" alt=\"\">" +
+        "<img src=\"assets/qualityCare.jpg\" id=\"qualityCarePic\" class=\"programmingPic\" alt=\"\">" +
+        "<img src=\"assets/githubHome.jpg\" id=\"githubHomePic\" class=\"programmingPic\" alt=\"\">" +
+        "<img src=\"assets/githubPersonalWebsite.jpg\" id=\"githubPersonalWebsitePic\" class=\"programmingPic\" alt=\"\">";
 
     res.render("primaryView", context);
 });
 
 app.get("/creativePursuits", function(req,res)
 {
-    const context = {};
+    let  context = {};
 
     context.page = "creativePursuits";
 
@@ -129,37 +120,23 @@ app.get("/creativePursuits", function(req,res)
     context.primaryContent = {};
     context.primaryContent.a = "Music, photography, running/playing tabletop RPGs, and DIY projects are all hobbies of mine! As I polish off projects worthy of display, I'll host them here!";
 
-    context.secondaryContent =
-        "<ul>" +
-        "<li><a href=\"photography\">Photography</a></li>" +
-        "</ul>";
+    context.secondaryContent = {};
+    context.secondaryContent.a =
+        "<div id=\"creativePursuitsList\" class=\"contentButtonContainer\">" +
+            "<div><a href=\"photography\">Photography</a></div>" +
+        "</div>";
+
+
 
     //console.log(context); //debug
 
     res.render("primaryView", context);
 });
 
-app.get("/contact", function(req,res)
-{
-    const context = {};
-
-    context.page = "contact";
-
-    context.primaryContentHeader = "Contact";
-
-    context.primaryContent = {};
-    context.primaryContent.a = "Looking to get in touch?";
-    //TODO: create public contact email
-    context.primaryContent.b = "Please direct any inquiries to my public contact box {{$$EMAIL HERE$$}}.";
-
-    context.secondaryContent = "Hey! I'll put something over here when I think of something good!";
-
-    res.render("primaryView", context);
-});
 /*
 app.get("/music", function(req,res)
 {
-    const context = {};
+    let  context = {};
 
     context.page = "music";
 
@@ -170,7 +147,8 @@ app.get("/music", function(req,res)
         "<br/>" + 
         "<a href=\"creativePursuits\">Back to Creative Pursuits</a>";
 
-    context.secondaryContent =
+    context.secondaryContent = {};
+    context.secondaryContent.a =
        "<div id=\"recordingList\">" +
        "<em>\"Black Eyed Dog\"</em> (Nick Drake cover)" +
        "<br/>" +
@@ -192,7 +170,7 @@ app.get("/music", function(req,res)
 
 app.get("/photography", function(req,res)
 {
-    const context = {};
+    let  context = {};
 
     context.page = "photography";
 
@@ -202,8 +180,9 @@ app.get("/photography", function(req,res)
     context.primaryContent.a = "The world is a lovely place, and it's fun to capture some of it. On the rare occasions I find myself in areas with low light pollution, I turn my camera skyward.";
     context.primaryContent.b = "Select a gallery from the list to see my select favorites!";
 
-    context.secondaryContent =
-        "<div id=\"photographyList\">" +
+    context.secondaryContent = {};
+    context.secondaryContent.a =
+        "<div id=\"photographyList\" class=\"contentButtonContainer\">" +
             "<div>Astrophotography</div>" +
             "<div>The Netherlands</div>" +
             "<div>Doggos</div>" +
@@ -212,9 +191,10 @@ app.get("/photography", function(req,res)
     res.render("primaryView", context);
 });
 
+//listen for post request to assets/photography. give back filenames to requestor.
 app.post('/public/assets/photography/*', function(req,res)
 {
-    const context = {};
+    let  context = {};
 
     fs.readdir('public/assets/photography/' + req.body.folder + 'full/', function (err, files)
     {
@@ -226,20 +206,40 @@ app.post('/public/assets/photography/*', function(req,res)
     });
 });
 
+app.get("/contact", function(req,res)
+{
+    let  context = {};
+
+    context.page = "contact";
+
+    context.primaryContentHeader = "Contact";
+
+    context.primaryContent = {};
+    context.primaryContent.a = "Looking to get in touch?";
+    context.primaryContent.b = "Please direct any inquiries to my public contact box kirkham.joe.a at gmail dot com.";
+
+    context.secondaryContent = {};
+    context.secondaryContent.a = "Hey! I'll put something over here when I think of something good!";
+
+    res.render("primaryView", context);
+});
+
+//out of bounds handler
 app.get('/*', function(req,res)
 {
-    const context = {};
+    let  context = {};
 
     context.primaryContentHeader = "You've fallen off the map!";
 
     context.primaryContent = "Here there be dragons - use the navbar above to return to charted territory!";
 
-    context.secondaryContent = "{{$$LOST PAGE PLACEHOLDER$$}}";
+    context.secondaryContent = {};
+    context.secondaryContent.a = "{{$$LOST PAGE PLACEHOLDER$$}}";
 
     res.render("primaryView", context);
 });
 
-/*error handlers*/
+//error handlers
 app.use(function(req,res){
     res.status(404);
     res.render("404");
@@ -252,7 +252,7 @@ app.use(function(err, req, res){
     res.render("500");
 });
 
-/*log server start to server console*/
+//log server start to server console*
 app.listen(app.get("port"), function(){
     console.log("Express started on http://localhost:" + app.get("port") + " on " + (new Date().toDateString()) + " at " + (new Date().toTimeString()) + "; press Ctrl-C to terminate.");
 });

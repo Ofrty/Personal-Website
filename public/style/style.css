@@ -29,6 +29,19 @@ body
     color: #000033;
 }
 
+h1
+{
+    color: lightsteelblue;
+    text-align: center;
+    margin: auto;
+    font-size: calc(20px + 2vmin);
+}
+
+h2
+{
+    font-family: "Open Sans", sans-serif;
+}
+
 img
 {
     max-height: 100%;
@@ -40,13 +53,49 @@ ul
     margin-bottom: 1em;
 }
 
-/**Header**/
+.contentButtonContainer
+{
+    text-align: center;
+    font-family: "Georgia", serif;
+    font-size: calc(100% + .4vw + .4vh);
+}
+
+.contentButtonContainer div
+{
+    cursor: pointer;
+    margin: 2em;
+}
+
+.contentButtonContainer div:hover
+{
+    opacity: 0.67;
+}
+
 header
 {
     margin: auto;
     width: 100%;
 }
 
+footer
+{
+    position: fixed;
+    margin: auto auto 0 auto;
+    text-align: center;
+    font-size: var(--footer-size)pt;
+
+    /*how to stretch full screen width, but never have a horizontal scrollbar*/
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /*************************************************************************/
+
+    background-color: #000022;
+    color: #6633ee;
+}
+
+/*Navbar*/
 #navbarPicContainer
 {
     position: relative;
@@ -54,7 +103,6 @@ header
     width: 83.3vw;
 }
 
-/*Navbar*/
 #headerPic
 {
     position: relative;
@@ -82,7 +130,7 @@ header
     cursor: pointer;
     background-color: inherit;
     color: #8877BB;
-    font-family: "Georgia";
+    font-family: "Georgia", serif;
     font-size: calc( (1.73vw + 1vh) * 0.65);
     border: 0;
 }
@@ -101,18 +149,7 @@ header
     background-color: #000033;
 }
 
-h1
-{
-    text-align: center;
-    margin: auto;
-    font-size: calc(20px + 2vmin);
-}
-
-h2
-{
-    font-family: "Open Sans", sans-serif;
-}
-
+/*Prim View*/
 .contentContainer
 {
     position: relative;
@@ -146,34 +183,28 @@ h2
     height: 100%
 }
 
-footer
-{
-    position: fixed;
-    margin: auto auto 0 auto;
-    text-align: center;
-    font-size: var(--footer-size)pt;
-
-    /*how to stretch full screen width, but never have a horizontal scrollbar*/
-    width: 100%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    /*************************************************************************/
-
-    background-color: #000022;
-    color: #6633ee;
-}
-
 /**Home**/
 .twitter-timeline
 {
 }
 
 /**Programming**/
+#programmingList
+{
+    text-align: left;
+}
+
+#programmingSecondaryContent
+{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .programmingPic
 {
     position: absolute;
-    left:  0;
     opacity: 0.0;
     visibility: hidden;
     max-height: 100%;
@@ -186,19 +217,6 @@ footer
     visibility: visible;
 }
 
-#programmingList
-{
-    text-align: left;
-}
-
-#programmingSecondaryContent
-{
-    position: fixed;
-    display: flex;
-    right: 12vw;
-    top: 15vh;
-}
-
 /**Music**/
 audio
 {
@@ -206,25 +224,6 @@ audio
 }
 
 /**Photography**/
-#photographyList
-{
-    text-align: center;
-    font-family: "Georgia";
-    font-size: calc(100% + .4vw + .4vh);
-}
-
-#photographyList div
-{
-    cursor: pointer;
-    margin: 2em;
-}
-
-#photographyList div:hover
-{
-    opacity: 0.67;
-}
-
-
 #overlay
 {
     position: fixed;
@@ -277,16 +276,16 @@ audio
 {
     position: absolute;
     top: -4vh;
-    font-family: "Georgia";
+    font-family: "Georgia", serif;
 }
 
 #thumbContainer
 {
     position: absolute;
     display: flex;
+    justify-content: space-between;
     overflow-x: auto;
     overflow-y: hidden;
-    justify-content: space-evenly;
     text-align: center;
     bottom: 0;
     width: calc(3vmin * var(--main-gallery-scale));
@@ -297,7 +296,6 @@ div .thumb
 {
     display: inline-block;
     width: calc(3vmin * calc(var(--main-gallery-scale) / var(--main-gallery-thumb-scale)));
-    min-width: calc(3vmin * calc(var(--main-gallery-scale) / var(--main-gallery-thumb-scale)));
     height: inherit;
     padding: 0 10px;
 }
